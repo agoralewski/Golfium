@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Golfium</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="perm_desc">application contains sensitive data with game scores</string>
+    <string name="BestScores">Best scores</string>
+    <string name="ThisAppWasCreated">This app was created for Mobile Computing class on Warsaw University of Technology, \n\nArtur Góralewski © 2015</string>
+
+</resources>

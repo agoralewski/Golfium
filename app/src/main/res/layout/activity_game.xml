@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center"
+    android:background="#1e7c07"
+    android:orientation="vertical" >
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        <ImageView
+            android:id="@+id/headerBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/gamescreen_header"
+            android:adjustViewBounds="true"  />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <TextView
+                android:id="@+id/numberOfHits"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_weight=".73"
+                android:textSize="40sp"
+                android:textColor="#ffffff"
+                android:gravity="center"
+                android:layout_marginTop="35dip"
+                android:text="12" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_weight=".27"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/nameOfField"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Oakwood #8"
+                    android:layout_marginTop="5dip"
+                    android:textColor="#f6f310"
+                    android:textSize="20sp" />
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dip">
+                    <TextView
+                        android:id="@+id/numberOfPar"
+                        android:layout_width="0dip"
+                        android:layout_weight=".40"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Par: 6"
+                        android:layout_marginTop="5dip"
+                        android:textColor="#ffffff"
+                        android:textSize="30sp" />
+                    <TextView
+                        android:id="@+id/metresToTarget"
+                        android:layout_width="0dip"
+                        android:layout_weight=".60"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="102m"
+                        android:layout_marginTop="5dip"
+                        android:textColor="#ffffff"
+                        android:textSize="30sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="50"/>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        <ImageView
+            android:id="@+id/footerBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/gamescreen_footer"
+            android:adjustViewBounds="true"  />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dip"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip" >
+                <TextView
+                    android:id="@+id/game_track_01"
+                    android:layout_width="0dip"
+                    android:layout_weight="10"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:textColor="#acacac"
+                    android:text="01"
+                    android:gravity="center"/>
+                <TextView
+                    android:id="@+id/game_track_02"
+                    android:layout_width="0dip"
+                    android:layout_weight="10"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:textColor="#acacac"
+                    android:text="02"
+                    android:gravity="center" />
+                <TextView
+                    android:id="@+id/game_track_03"
+                    android:layout_width="0dip"
+                    android:layout_weight="10"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:textColor="#acacac"
+                    android:text="03"
+                    android:gravity="center" />
+                <TextView
+                    android:id="@+id/game_track_04"
+                    android:layout_width="0dip"
+                    android:layout_weight="10"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:textColor="#acacac"
+                    android:text="04"
+                    android:gravity="center" />
+                <TextView
+                    android:id="@+id/game_track_05"
+                    android:layout_width="0dip"
+                    android:layout_weight="10"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:textColor="#acacac"
+                    android:text="05"
+                    android:gravity="center" />
+                <TextView
+                    android:id="@+id/game_track_06"
+                    android:layout_width="0dip"
+                    android:layout_weight="10"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:textColor="#ffffff"
+                    android:text="06"
+                    android:gravity="center" />
+                <TextView
+                    android:id="@+id/game_track_07"
+                    android:layout_width="0dip"
+                    android:layout_weight="10"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:textColor="#ffffff"
+                    android:text="07"
+                    android:gravity="center" />
+                <TextView
+                    android:id="@+id/game_track_08"
+                    android:layout_width="0dip"
+                    android:layout_weight="10"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:textColor="#f6f310"
+                    android:text="08"
+                    android:gravity="center" />
+                <TextView
+                    android:id="@+id/game_track_09"
+                    android:layout_width="0dip"
+                    android:layout_weight="10"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:textColor="#ffffff"
+                    android:text="09"
+                    android:gravity="center" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip" >
+                <TextView
+                    android:id="@+id/game_track_10"
+                    android:layout_width="0dip"
+                    android:layout_weight="10"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:textColor="#ffffff"
+                    android:text="10"
+                    android:gravity="center"/>
+                <TextView
+                    android:id="@+id/game_track_11"
+                    android:layout_width="0dip"
+                    android:layout_weight="10"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:textColor="#acacac"
+                    android:text="11"
+                    android:gravity="center" />
+                <TextView
+                    android:id="@+id/game_track_12"
+                    android:layout_width="0dip"
+                    android:layout_weight="10"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:textColor="#ffffff"
+                    android:text="12"
+                    android:gravity="center" />
+                <TextView
+                    android:id="@+id/game_track_13"
+                    android:layout_width="0dip"
+                    android:layout_weight="10"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:textColor="#ffffff"
+                    android:text="13"
+                    android:gravity="center" />
+                <TextView
+                    android:id="@+id/game_track_14"
+                    android:layout_width="0dip"
+                    android:layout_weight="10"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:textColor="#ffffff"
+                    android:text="14"
+                    android:gravity="center" />
+                <TextView
+                    android:id="@+id/game_track_15"
+                    android:layout_width="0dip"
+                    android:layout_weight="10"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:textColor="#acacac"
+                    android:text="15"
+                    android:gravity="center" />
+                <TextView
+                    android:id="@+id/game_track_16"
+                    android:layout_width="0dip"
+                    android:layout_weight="10"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:textColor="#ffffff"
+                    android:text="16"
+                    android:gravity="center" />
+                <TextView
+                    android:id="@+id/game_track_17"
+                    android:layout_width="0dip"
+                    android:layout_weight="10"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:textColor="#acacac"
+                    android:text="17"
+                    android:gravity="center" />
+                <TextView
+                    android:id="@+id/game_track_18"
+                    android:layout_width="0dip"
+                    android:layout_weight="10"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:textColor="#ffffff"
+                    android:text="18"
+                    android:gravity="center" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/totalScore"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:textSize="25sp"
+                android:textColor="#ffffff"
+                android:gravity="center"
+                android:text="Total score: 24" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

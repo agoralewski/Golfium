@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="#1e7c07"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:contentDescription="golfium_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:src="@drawable/golfiumlogo" />
+    <TextView
+        android:id="@+id/textViewWizard1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="0dip"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:text="Now scan the NFC tag\nof your golf ball." />
+    <TextView
+        android:id="@+id/textViewWizard2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="30dip"
+        android:textColor="#a6a6a6"
+        android:textSize="20sp"
+        android:text="Now scan the NFC tag\nof a golf hole\nwhich you wish to play." />
+    <Button
+        android:id="@+id/startMyGameButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="30dip"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:clickable = "false"
+        android:textColor="#a6a6a6"
+        android:text="Start my game!" />
+    <TextView
+        android:id="@+id/textViewWizard3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="30dip"
+        android:textColor="#a6a6a6"
+        android:textSize="10sp"
+        android:text="1/3" />
+</LinearLayout>

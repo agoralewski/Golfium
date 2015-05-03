@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="pl.goralewski.artur.golfium" >
+
+    <!--permissions które potrzebuje aplikacja - użytkownik musi się zgodzić na nie żeby z niej kozystać-->
+    <!--<uses-permission android:name="android.permission.READ_CONTACTS" />-->
+    <uses-permission android:name="android.permission.NFC" />
+    <!-- potrzebne do ustalenia pozycji na podstawie wifi i wierz radiowych -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- potrzebne do ustalenia pozycji na podstawie wifi i wierz radiowych, GPS, innych aplikacji / zrodel passive_provider -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!--aby pobrać mapy-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!--sprawdza czy może pobierac dane-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!--map data musi byc zapisane-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!--dostęp do google web services-->
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+
+    <!--permission aby uzywać tej aplikacji-->
+    <permission
+        android:name="pl.goralewski.artur.aplikacjaszkoleniowa.GOLFER_PERM"
+        android:description="@string/perm_desc"
+        android:label=""
+    />
+
+    <!-- Required OpenGL ES 2.0. for Maps V2 -->
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"/>
+
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <!--android:permission="pl.goralewski.artur.aplikacjaszkoleniowa.GOLFER_PERM"> to powinienem
+        podczepic puźniej do content provider a nie całej aplikacji bo dlaczego by nie któraś inna apka miała kozystać z naszej-->
+
+        <activity
+            android:name=".WelcomeActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".GameStartWizardActivity"
+            android:label="Golfium Game Start"
+            android:parentActivityName=".WelcomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.support.PARENT_ACTIVITY" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.nfc.action.TECH_DISCOVERED" />
+            </intent-filter>
+            <!--<meta-data
+                android:name="android.nfc.action.TECH_DISCOVERED"
+                android:resource="@xml/nfc_tech_filter" />-->
+        </activity>
+
+        <activity android:name=".GameActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:parentActivityName=".WelcomeActivity" >
+        </activity>
+
+        <activity
+            android:name=".LocationCheckActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".WelcomeActivity" >
+        </activity>
+
+        <!-- ***************using google maps***************************************************-->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <!--this is debug key if I want to release app I have to make new one release key-->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyB6He6FS-fx3iT6aJxxOcC9pbJzwbrCj5c" />
+        <!-- ***************using google maps***************************************************-->
+    </application>
+
+</manifest>
