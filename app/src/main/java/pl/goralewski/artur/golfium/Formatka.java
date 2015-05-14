@@ -7,8 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class Formatka extends ActionBarActivity {
-
-    private final String TAG = "Aplikacja szkoleniowa";
+    private final String MY_TAG = "Formatka";
     /*
     restore saved state
     set content view
@@ -37,7 +36,7 @@ public class Formatka extends ActionBarActivity {
 //                startActivityForResult(intent, PICK_CONTACT_REQUEST);
 //            } catch (Exception e) {
 //// Log any error messages to LogCat using Log.e()
-//                Log.e(TAG, e.toString());
+//                Log.e(MY_TAG, e.toString());
 //            }
 //        }
 //    });
@@ -116,32 +115,32 @@ public class Formatka extends ActionBarActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.i(TAG, "The activity is visible and about to be started.");
+        Log.i(MY_TAG, "The activity is visible and about to be started.");
     }
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.i(TAG, "The activity is visible and about to be restarted.");
+        Log.i(MY_TAG, "The activity is visible and about to be restarted.");
     }
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i(TAG, "The activity is and has focus (it is now \"resumed\")");
+        Log.i(MY_TAG, "The activity is and has focus (it is now \"resumed\")");
     }
     @Override
     protected void onPause() {
         super.onPause();
-        Log.i(TAG,
+        Log.i(MY_TAG,
                 "Another activity is taking focus (this activity is about to be \"paused\")");
     }
     @Override
     protected void onStop() {
         super.onStop();
-        Log.i(TAG, "The activity is no longer visible (it is now \"stopped\")");
+        Log.i(MY_TAG, "The activity is no longer visible (it is now \"stopped\")");
     }
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.i(TAG, "The activity is about to be destroyed.");
+        Log.i(MY_TAG, "The activity is about to be destroyed.");
     }
 }

@@ -3,6 +3,7 @@ package pl.goralewski.artur.golfium;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,18 +14,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import java.io.File;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
 public class WelcomeActivity extends Activity {
-
+    private final String MY_TAG = "WelcomeActivity";
     @InjectView(R.id.startButton)
     Button startButton;
+    @InjectView(R.id.stopButton)
     Button stopButton;
     Button locationCheckButton;
+    SharedPreferences allInfoOfCurrentState;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,12 +34,13 @@ public class WelcomeActivity extends Activity {
 
         ButterKnife.inject(this);
 
-        stopButton = (Button)findViewById(R.id.stopButton);
         locationCheckButton = (Button)findViewById(R.id.locationCheckButton);
 
-        File data_file = new File("golfium_game_data.txt");
+        allInfoOfCurrentState = getSharedPreferences(String.valueOf(R.string.allInfoOfCurrentStateFileName), MODE_PRIVATE);
 
-        if(data_file.exists())
+//        File data_file = new File("golfium_game_data.txt");
+
+        if(allInfoOfCurrentState.getBoolean("inGame", false)) //chceck if we are still in game
         {
             stopButton.setClickable(true);
             stopButton.setTextColor(Color.parseColor("#ffffff"));
@@ -91,18 +93,19 @@ public class WelcomeActivity extends Activity {
     }
 
     @OnClick(R.id.startButton)
-    public void onClick()
+    public void onClickStartButton()
     {
         final ProgressDialog dialog = ProgressDialog.show(WelcomeActivity.this, "", "Loading", true);
-
         final Handler closeHandler = new Handler() {
             public void handleMessage(Message msg) {
                 if (dialog != null) dialog.dismiss();
             }
         };
-        File data_file = new File("golfium_game_data.txt");
+
+//        File data_file = new File("golfium_game_data.txt");
         // FTYS here we should not just check if file exists, but also read from file to check if there is also ball ID and current hole ID.
-        if (data_file.exists()) {
+        if (allInfoOfCurrentState.getBoolean("inGame", false)) //chceck if we are still in game
+        {
             startActivity(new Intent(WelcomeActivity.this, GameActivity.class));
             closeHandler.sendEmptyMessageDelayed(0, 1000);
         } else {
@@ -111,6 +114,13 @@ public class WelcomeActivity extends Activity {
         }
     }
 
+    @OnClick(R.id.stopButton)
+    public void onClickStopButton()
+    {
+        SharedPreferences.Editor editor= allInfoOfCurrentState.edit();
+        editor.putBoolean("inGame", false);
+        editor.commit();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -136,7 +146,6 @@ public class WelcomeActivity extends Activity {
 
     public void openWebURL( String inURL ) {
         Intent browse = new Intent( Intent.ACTION_VIEW , Uri.parse(inURL) );
-
-        startActivity( browse );
+        startActivity(browse);
     }
 }

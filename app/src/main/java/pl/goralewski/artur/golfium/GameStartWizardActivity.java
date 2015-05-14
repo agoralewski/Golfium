@@ -1,7 +1,6 @@
 package pl.goralewski.artur.golfium;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.nfc.NdefMessage;
@@ -11,10 +10,7 @@ import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +20,7 @@ import java.util.Arrays;
 
 public class GameStartWizardActivity extends Activity {
     public static final String MIME_TEXT_PLAIN = "text/plain";
-    public static final String TAG = "NfcDemo";
+    public final String MY_TAG = "NfcDemo";
     private NfcAdapter mNfcAdapter;
 
     @Override
@@ -74,7 +70,7 @@ public class GameStartWizardActivity extends Activity {
                 Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
                 new NdefReaderTask().execute(tag);
             } else {
-                Log.d(TAG, "Wrong mime type: " + type);
+                Log.d(MY_TAG, "Wrong mime type: " + type);
             }
         } else if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)) {
             // In case we would still use the Tech Discovered Intent
@@ -115,7 +111,7 @@ public class GameStartWizardActivity extends Activity {
                     try {
                         return readText(ndefRecord);
                     } catch (UnsupportedEncodingException e) {
-                        Log.e(TAG, "Unsupported Encoding", e);
+                        Log.e(MY_TAG, "Unsupported Encoding", e);
                     }
                 }
             }

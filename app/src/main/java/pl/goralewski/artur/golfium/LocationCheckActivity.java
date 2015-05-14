@@ -1,12 +1,6 @@
 package pl.goralewski.artur.golfium;
 
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -18,7 +12,16 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+
 public class LocationCheckActivity extends Activity {
+    private final String MY_TAG = "LocationCheckActivity";
     private static final long ONE_MIN = 1000 * 60;
     private static final long TWO_MIN = ONE_MIN * 2;
     private static final long FIVE_MIN = ONE_MIN * 5;
@@ -38,7 +41,7 @@ public class LocationCheckActivity extends Activity {
     // Reference to the LocationManager and LocationListener
     private LocationManager mLocationManager;
     private LocationListener mLocationListener;
-    private final String TAG = "LocationGetLocation";
+    
     private boolean mFirstUpdate = true;
 
     @Override
@@ -72,7 +75,7 @@ public class LocationCheckActivity extends Activity {
         } else {
             mAccuracyView.setText("No Initial Reading Available");
         }
-        Log.i(TAG, "on start");
+        Log.i(MY_TAG, "on start");
         mLocationListener = new LocationListener() {
             // Called back when location changes
             public void onLocationChanged(Location location) {
@@ -83,7 +86,7 @@ public class LocationCheckActivity extends Activity {
                     mBestReading = location;
                     // Update display
                     updateDisplay(location);
-                    Log.i(TAG, "localization upgraded");
+                    Log.i(MY_TAG, "localization upgraded");
                     if (mBestReading.getAccuracy() < MIN_ACCURACY) // if accuracy less than 25 m stop measuring
                         mLocationManager.removeUpdates(mLocationListener);
                 }
@@ -105,7 +108,7 @@ public class LocationCheckActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i(TAG, "on resume");
+        Log.i(MY_TAG, "on resume");
         // Determine whether initial reading is
         // "good enough". If not, register for further location updates
         if (null == mBestReading
@@ -133,7 +136,7 @@ public class LocationCheckActivity extends Activity {
             Executors.newScheduledThreadPool(1).schedule(new Runnable() {
                 @Override
                 public void run() {
-                    Log.i(TAG, "location Updates Cancelled");
+                    Log.i(MY_TAG, "location Updates Cancelled");
                     mLocationManager.removeUpdates(mLocationListener);
                 }
             }, MEASURE_TIME, TimeUnit.MILLISECONDS); //trigger after 30s stopping measuring location

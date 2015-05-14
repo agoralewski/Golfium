@@ -75,6 +75,8 @@
             android:parentActivityName=".WelcomeActivity" >
         </activity>
 
+        <service android:name=".services.GPSTrackerService"/>
+
         <!-- ***************using google maps***************************************************-->
         <meta-data
             android:name="com.google.android.gms.version"

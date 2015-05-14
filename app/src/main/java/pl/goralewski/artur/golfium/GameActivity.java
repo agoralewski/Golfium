@@ -17,12 +17,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class GameActivity extends Activity{
+    private final String MY_TAG ="GameActivity";
     // Google Map
     private GoogleMap googleMap;
     // Reference to the LocationManager and LocationListener
     private LocationManager mLocationManager;
     private LocationListener mLocationListener;
-    private final String TAG = "GameActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
