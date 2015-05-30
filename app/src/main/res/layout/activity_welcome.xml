@@ -14,52 +14,92 @@
         android:layout_height="wrap_content"
         android:src="@drawable/golfiumlogo"
         android:adjustViewBounds="true" />
-
-    <Button
-        android:id="@+id/startButton"
+    <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:layout_marginTop="30dip"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:text="Start game" />
+        android:layout_height="600px">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/startButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:layout_marginTop="30dip"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:text="Start game" />
 
-    <Button
-        android:id="@+id/stopButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:layout_marginTop="10dip"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:clickable = "false"
-        android:textColor="#a6a6a6"
-        android:text="Stop game" />
+            <Button
+                android:id="@+id/stopButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:layout_marginTop="10dip"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:clickable = "false"
+                android:textColor="#a6a6a6"
+                android:text="Stop game" />
 
-    <Button
-        android:id="@+id/bestScoreButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:layout_marginTop="10dip"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:text="@string/BestScores" />
+            <Button
+                android:id="@+id/bestScoreButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:layout_marginTop="10dip"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:text="@string/BestScores" />
 
-    <Button
-        android:id="@+id/locationCheckButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:layout_marginTop="10dip"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:text="Check location" />
+            <Button
+                android:id="@+id/locationCheckButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:layout_marginTop="10dip"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:text="Check location" />
+
+            <Button
+                android:id="@+id/NFCWriter"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:layout_marginTop="10dip"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:text="Program your NFC" />
+            <Button
+                android:id="@+id/exportDatabaseButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:layout_marginTop="10dip"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:text="Export Database" />
+            <Button
+                android:id="@+id/googlesampleButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:layout_marginTop="10dip"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:text="googlesample" />
+
+        </LinearLayout>
+    </ScrollView>
 
     <RelativeLayout
         android:layout_width="wrap_content"

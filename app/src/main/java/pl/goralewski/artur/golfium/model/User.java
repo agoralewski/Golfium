@@ -1,7 +1,7 @@
 package pl.goralewski.artur.golfium.model;
 
 /**
- * Created by Artur Góralewski on 11/05/2015.
+ * Created by Artur Goralewski on 11/05/2015.
  */
 public class User implements TableRow{
 

@@ -3,9 +3,9 @@ package pl.goralewski.artur.golfium.model;
 import java.util.Date;
 
 /**
- * Created by Artur Góralewski on 12/05/2015.
+ * Created by Artur Goralewski on 12/05/2015.
  */
-public class Coordinates {
+public class Coordinates implements TableRow{
 
     private Integer id;
     private Double latitude;

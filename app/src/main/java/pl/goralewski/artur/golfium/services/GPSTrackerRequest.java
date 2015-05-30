@@ -7,7 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by Artur Góralewski on 07/05/2015.
+ * Created by Artur Goralewski on 07/05/2015.
  */
 public class GPSTrackerRequest extends AsyncTask<String, Void, Void> {
     private final String MY_TAG = "GPSTrackerRequest";

@@ -1,7 +1,11 @@
 package pl.goralewski.artur.golfium;
 
 import android.app.Activity;
+import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -10,6 +14,8 @@ import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,35 +24,34 @@ import android.widget.Toast;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+
 public class GameStartWizardActivity extends Activity {
     public static final String MIME_TEXT_PLAIN = "text/plain";
-    public final String MY_TAG = "NfcDemo";
+    public final String MY_TAG = "GameStartWizardActivity";
     private NfcAdapter mNfcAdapter;
+
+    @InjectView(R.id.textViewWizard1)
+    TextView textViewWizard1;
+    @InjectView(R.id.textViewWizard2)
+    TextView textViewWizard2;
+    @InjectView(R.id.textViewWizard3)
+    TextView textViewWizard3;
+    @InjectView(R.id.startMyGameButton)
+    Button startMyGameButton;
+    SharedPreferences allInfoOfCurrentStatePrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_welcome);
-//        ((Button)findViewById(R.id.startButton)).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//
-//            public void onClick(View v) {
-//                final ProgressDialog dialog = ProgressDialog.show(GameStartWizardActivity.this, "",
-//                        "Loading", true);
-//
-//                final Handler closeHandler = new Handler() {
-//                    public void handleMessage(Message msg) {
-//                        if (dialog!=null) dialog.dismiss();
-//                    }
-//                };
-//
-//                startActivity(new Intent(GameStartWizardActivity.this, GameActivity.class));
-//                closeHandler.sendEmptyMessageDelayed(0, 3000);
-//            }
-//        });
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_start_wizard);
+        Log.i(MY_TAG, "onCreate()");
+
+        ButterKnife.inject(this);
+
+        allInfoOfCurrentStatePrefs = getSharedPreferences(String.valueOf(R.string.allInfoOfCurrentStateFileName), MODE_PRIVATE);
 
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (mNfcAdapter == null) {
@@ -61,13 +66,98 @@ public class GameStartWizardActivity extends Activity {
         }
         handleIntent(getIntent());
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i(MY_TAG, "onStart() The activity is visible and about to be started.");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        startMyGameButton.setClickable(false);
+        Log.i(MY_TAG, "onRestart() The activity is visible and about to be restarted. after onStop() before onStart()");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(MY_TAG, "onResume() The activity is and has focus (it is now \"resumed\")");
+        /**
+         * It's important, that the activity is in the foreground (resumed). Otherwise
+         * an IllegalStateException is thrown.
+         */
+        setupForegroundDispatch(this, mNfcAdapter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i(MY_TAG, "onPause() Another activity is taking focus (this activity is about to be \"paused\")");
+        mNfcAdapter.disableForegroundDispatch(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i(MY_TAG, "onStop() The activity is no longer visible (it is now \"stopped\")");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(MY_TAG, "onDestroy() The activity is about to be destroyed.");
+    }
+
+    /**
+     * @param activity The corresponding {@link Activity} requesting the foreground dispatch.
+     * @param adapter The {@link NfcAdapter} used for the foreground dispatch.
+     */
+    public static void setupForegroundDispatch(final Activity activity, NfcAdapter adapter) {
+        final Intent intent = new Intent(activity.getApplicationContext(), activity.getClass());
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        final PendingIntent pendingIntent = PendingIntent.getActivity(activity.getApplicationContext(), 0, intent, 0);
+
+        IntentFilter[] filters = new IntentFilter[1];
+        String[][] techList = new String[][]{};
+
+        // Notice that this is the same filter as in our manifest.
+        filters[0] = new IntentFilter();
+        filters[0].addAction(NfcAdapter.ACTION_NDEF_DISCOVERED);
+        filters[0].addCategory(Intent.CATEGORY_DEFAULT);
+        try {
+            filters[0].addDataType(MIME_TEXT_PLAIN);
+        } catch (IntentFilter.MalformedMimeTypeException e) {
+            throw new RuntimeException("Check your mime type.");
+        }
+
+        adapter.enableForegroundDispatch(activity, pendingIntent, filters, techList);
+    }
+
+
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        /**
+         * This method gets called, when a new Intent gets associated with the current activity instance.
+         * Instead of creating a new activity, onNewIntent will be called.
+         * In this case this method gets called, when the user attaches a Tag to the device.
+         */
+        handleIntent(intent);
+    }
+
     private void handleIntent(Intent intent) {
         String action = intent.getAction();
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
             String type = intent.getType();
+            Log.d(MY_TAG, "mime type: " + type + " expected: " + MIME_TEXT_PLAIN);
             if (MIME_TEXT_PLAIN.equals(type)) {
-                Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+                Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG); //obtain a Tag object from the intent,
+                                                                           // which will contain the payload and allow you to enumerate the tag's technologies:
                 new NdefReaderTask().execute(tag);
             } else {
                 Log.d(MY_TAG, "Wrong mime type: " + type);
@@ -85,8 +175,32 @@ public class GameStartWizardActivity extends Activity {
             }
         }
     }
+
+    @OnClick(R.id.startMyGameButton)
+    public void onClickStartMyGameButton()
+    {
+        final ProgressDialog dialog = ProgressDialog.show(GameStartWizardActivity.this, "", "Loading", true);
+        final Handler closeHandler = new Handler() {
+            public void handleMessage(Message msg) {
+                if (dialog != null) dialog.dismiss();
+            }
+        };
+
+//        File data_file = new File("golfium_game_data.txt");
+        // FTYS here we should not just check if file exists, but also read from file to check if there is also ball ID and current hole ID.
+        SharedPreferences.Editor editor = allInfoOfCurrentStatePrefs.edit();
+        editor.putBoolean("inGame", true);
+        editor.commit();
+
+        startActivity(new Intent(GameStartWizardActivity.this, GameActivity.class));
+        closeHandler.sendEmptyMessageDelayed(0, 1000);
+                                                //todo
+//        startMyGameButton.setClickable(false);//prawdopodobnie potrzebne żeby nie robić nowego activity po jednym cofnięciu
+                                                //albo lepiej z game activity przejść odrazu do welcomeActivity
+    }
+
                                                 //<Params,progress,result> okresnienie typow
-    private class NdefReaderTask extends AsyncTask<Tag, Void, String> {
+    private class NdefReaderTask extends AsyncTask<Tag, Integer, String> {
 
         @Override
         protected void onPreExecute() { //executes in UI thread before AsyncTask is running. it set up the AsyncTask
@@ -107,6 +221,9 @@ public class GameStartWizardActivity extends Activity {
             NdefMessage ndefMessage = ndef.getCachedNdefMessage();
             NdefRecord[] records = ndefMessage.getRecords();
             for (NdefRecord ndefRecord : records) {
+                Log.d(MY_TAG, "type name format: " + ndefRecord.getTnf());
+                Log.d(MY_TAG, "mime type: " + ndefRecord.toMimeType());
+                //not used
                 if (ndefRecord.getTnf() == NdefRecord.TNF_WELL_KNOWN && Arrays.equals(ndefRecord.getType(), NdefRecord.RTD_TEXT)) {
                     try {
                         return readText(ndefRecord);
@@ -114,9 +231,15 @@ public class GameStartWizardActivity extends Activity {
                         Log.e(MY_TAG, "Unsupported Encoding", e);
                     }
                 }
+                //used in my application
+                if (ndefRecord.getTnf() == NdefRecord.TNF_MIME_MEDIA && MIME_TEXT_PLAIN.equals(ndefRecord.toMimeType())) {
+                    Log.d(MY_TAG, "data from NFC tag: " + new String(ndefRecord.getPayload()));
+                        return new String(ndefRecord.getPayload());
+                }
             }
             return null;
         }
+
         private String readText(NdefRecord record) throws UnsupportedEncodingException {
             /*
              * See NFC forum specification for "Text Record Type Definition" at 3.2.1
@@ -129,7 +252,11 @@ public class GameStartWizardActivity extends Activity {
              */
             byte[] payload = record.getPayload();
             // Get the Text Encoding
-            String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16";
+            String textEncoding;
+            if((payload[0] & 128) == 0)
+                textEncoding = "UTF-8";
+            else
+                textEncoding = "UTF-16";
             // Get the Language Code
             int languageCodeLength = payload[0] & 0063;
             // String languageCode = new String(payload, 1, languageCodeLength, "US-ASCII");
@@ -137,46 +264,57 @@ public class GameStartWizardActivity extends Activity {
             // Get the Text
             return new String(payload, languageCodeLength + 1, payload.length - languageCodeLength - 1, textEncoding);
         }
+
         @Override
         protected void onPostExecute(String result) { //będzie wywołane jak się skończy doInBackground() chyba w UI thread
             if (result != null) {
                 //result contains NFC text
-                TextView mTextView1;
-                mTextView1 = (TextView) findViewById(R.id.textViewWizard1);
-                TextView mTextView2;
-                mTextView2 = (TextView) findViewById(R.id.textViewWizard2);
-                TextView mTextView3;
-                mTextView3 = (TextView) findViewById(R.id.textViewWizard3);
-                Button mButton1 = (Button)findViewById(R.id.startMyGameButton);
-                String substr1;
-                String substr2;
+                String[] dataFromTag = result.split(":");//GOLFIUM:FIELD:x:HOLE:x:LAT:xx.xxxx:LON:xx.xxxx
                 // FTYS in this if we will ckeck if data_file exists - if not, do this (in activity onCreate, we delete data_file)
-                if (mTextView3.getText().toString().equals("1/3")){
-                    substr1=result.substring(0,13);
-                    if (substr1.equals("GOLFIUM.ball.")){
-                        mTextView1.setTextColor(Color.parseColor("#a6a6a6"));
-                        mTextView2.setTextColor(Color.parseColor("#ffffff"));
-                        substr2=result.substring(13);
-                        mTextView1.setText("Ball ID: " + substr2);
-                        mTextView3.setText("2/3");
-                        //FTYS writing one line into data_file (rewriting whole file)
+                if(dataFromTag[0].equals("GOLFIUM"))
+                {
+                    if (textViewWizard3.getText().toString().equals("1/3"))
+                    {
+                        if (dataFromTag[3].equals("BALL"))
+                        {
+                            textViewWizard1.setTextColor(Color.parseColor("#a6a6a6"));
+                            textViewWizard2.setTextColor(Color.parseColor("#ffffff"));
+                            textViewWizard1.setText("Ball ID: " + dataFromTag[4]);
+                            textViewWizard3.setText("2/3");
+
+                            SharedPreferences.Editor editor = allInfoOfCurrentStatePrefs.edit();
+                            editor.putString("ballId", dataFromTag[4]);
+                            editor.commit();
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(), R.string.WrongNfcTagNotBall, Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }
-                // FTYS in this if we will check if file exists and contains exactly one line (we will not check if it has 2/3)
-                else if (mTextView3.getText().toString().equals("2/3")){
-                    //FTYS rewrite screen, so it looks like at the end of previous if part
-                    substr1=result.substring(0,13);
-                    if (substr1.equals("GOLFIUM.hole.")){
-                        mTextView2.setTextColor(Color.parseColor("#a6a6a6"));
-                        mButton1.setClickable(true);
-                        mButton1.setTextColor(Color.parseColor("#ffffff"));
-                        substr2=result.substring(13);
-                        mTextView2.setText("Hole ID: " + substr2);
-                        mTextView3.setText("3");
-                        //FTYS write hole ID as a second line in data_file
+                    else if (textViewWizard3.getText().toString().equals("2/3"))
+                    {
+                        if (dataFromTag[3].equals("HOLE"))
+                        {
+                            textViewWizard2.setTextColor(Color.parseColor("#a6a6a6"));
+                            startMyGameButton.setClickable(true);
+                            startMyGameButton.setTextColor(Color.parseColor("#ffffff"));
+                            textViewWizard2.setText("Hole ID: " + dataFromTag[4]);
+                            textViewWizard3.setText("3/3");
+
+                            SharedPreferences.Editor editor = allInfoOfCurrentStatePrefs.edit();
+                            editor.putString("holeId", dataFromTag[4]);
+                            editor.putFloat("holeLat", new Float(dataFromTag[6]));
+                            editor.putFloat("holeLong", new Float(dataFromTag[8]));
+                            editor.commit();
+                        }
                     }
                 }
             }
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
         }
     }
 }

@@ -7,7 +7,7 @@
     <string name="perm_desc">application contains sensitive data with game scores</string>
     <string name="BestScores">Best scores</string>
     <string name="ThisAppWasCreated">This app was created for Mobile Computing class on Warsaw University of Technology, \n\nArtur Góralewski © 2015</string>
-
+    <string name="WrongNfcTagNotBall">Scan NFC tag of ball at first</string>
     <!--from gps tracker-->
     <string name="button_toggle">Tracker</string>
 
@@ -47,5 +47,6 @@
     <string name="toast_service_running">Tracker is on</string>
     <string name="toast_service_stopped">Tracker is off</string>
     <string name="toast_prefs_restart">Don\'t forget to restart tracking!</string>
+    <string name="title_activity_polyline_demo">PolylineDemoActivity</string>
     <!--from gps tracker-->
 </resources>

@@ -8,7 +8,7 @@
     <string name="perm_desc">application contains sensitive data with game scores</string>
     <string name="BestScores">Best scores</string>
     <string name="ThisAppWasCreated">This app was created for Mobile Computing class on Warsaw University of Technology, \n\nArtur Góralewski © 2015</string>
-
+    <string name="WrongNfcTagNotBall">Zeskanuj tag NFC piłki na początku</string>
     <!--from gps tracker-->
     <string name="button_toggle">Tracker</string>
 

@@ -1,9 +1,9 @@
 package pl.goralewski.artur.golfium.model;
 
 /**
- * Created by Artur Góralewski on 14/05/2015.
+ * Created by Artur Goralewski on 14/05/2015.
  */
-public class Field {
+public class Field implements TableRow{
 
     private Integer id;
     private String name;

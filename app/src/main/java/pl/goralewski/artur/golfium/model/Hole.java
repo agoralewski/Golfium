@@ -1,9 +1,9 @@
 package pl.goralewski.artur.golfium.model;
 
 /**
- * Created by Artur Góralewski on 14/05/2015.
+ * Created by Artur Goralewski on 14/05/2015.
  */
-public class Hole {
+public class Hole implements TableRow{
 
     private Integer id;
     private Integer par;
